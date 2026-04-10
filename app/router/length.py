@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status, HTTPException
 
 router = APIRouter(
     prefix="/length",
@@ -20,13 +20,13 @@ async def convert_length(value: float, from_unit: str, to_unit: str):
     }
 
     # Check if the provided units are valid
-    if from_unit not in conversion_factors or to_unit not in conversion_factors:
-        return {"error": "Invalid units provided."}
+    if from_unit not in conversion_factors or to_unit not in conversion_factors or type(value) not in [int, float]:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid units or value provided.")
 
     # Convert the input value to meters
     value_in_meters = value * conversion_factors[from_unit]
 
     # Convert the value from meters to the target unit
-    converted_value = round(value_in_meters / conversion_factors[to_unit], 4)
+    converted_value = value_in_meters / conversion_factors[to_unit]
 
     return {"converted_value": converted_value}

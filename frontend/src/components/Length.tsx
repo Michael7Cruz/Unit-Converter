@@ -21,22 +21,45 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
 
     const unitOptions = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"]; 
 
+    const handleLength = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let inputValue = e.target.value;
+        let inputMaxSize = 10 ** 16; // Set the maximum length for the input
+        let numericValue: number
+        if (inputValue === "") {
+            inputValue = "0";
+        }
+        if (inputValue === "-") {
+            inputValue = "-0.0";
+        }
+        numericValue = parseFloat(inputValue);
+        if (Math.abs(numericValue) >= inputMaxSize) {
+            numericValue = inputMaxSize - 1;
+        }
+        return numericValue
+    }
+
     const handleLengthChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLengthValue1(parseFloat(e.target.value));
+        let numericValue = handleLength(e);
+        setLengthValue1(numericValue);
         setUpdatingInput(0);
     }
 
     const handleLengthChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLengthValue2(parseFloat(e.target.value));
+        let numericValue = handleLength(e);
+        setLengthValue2(numericValue);
         setUpdatingInput(1);
     }
 
     useEffect(() => {
         const convertLength = async () => {
             if (itemSelected === "Length" && updatingInput === 0) {
-                const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${lengthValue1}`);
-                const data = await response.json();
-                setLengthValue2(data.converted_value);
+                try {
+                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${lengthValue1}`);
+                    const data = await response.json();
+                    setLengthValue2(data.converted_value);
+                } catch (error) {
+                    console.error("Error converting length:", error);
+                } 
             }
         }
         convertLength();
@@ -45,9 +68,13 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
     useEffect(() => {
         const convertLength = async () => {
             if (itemSelected === "Length" && updatingInput === 1) {
-                const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${lengthValue2}`);
-                const data = await response.json();
-                setLengthValue1(data.converted_value);
+                try {
+                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${lengthValue2}`);
+                    const data = await response.json();
+                    setLengthValue1(data.converted_value);
+                } catch (error) {
+                    console.error("Error converting length:", error);
+                } 
             }
         }
         convertLength();
