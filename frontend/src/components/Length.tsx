@@ -26,20 +26,23 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
         let inputValue = e.target.value;
         if (lengthSetState === "setLengthValue1") {
             setLengthValue1(inputValue);
+            setUpdatingInput(0);
         } else {
             setLengthValue2(inputValue);
+            setUpdatingInput(1);
         }
         return inputValue
     }
 
-    const handleLengthChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        handleLength(e, "setLengthValue1");
-        setUpdatingInput(0);
-    }
-
-    const handleLengthChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        handleLength(e, "setLengthValue2");
-        setUpdatingInput(1);
+    const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>, unitSetState: string) => {
+        let unitValue = e.target.value;
+        if (unitSetState === "setFromUnitState") {
+            setFromUnitState(unitValue);
+            setUpdatingInput(0);
+        } else {
+            setToUnitState(unitValue);
+            setUpdatingInput(1);
+        }
     }
 
     useEffect(() => {
@@ -84,12 +87,12 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                             className="form-control"
                             placeholder=""
                             value={lengthValue1}
-                            onChange={handleLengthChange1}
+                            onChange={(e) => handleLength(e, "setLengthValue1")}
                             id="input1"
                         />
                     </div>
                     <div className="col">
-                        <select className="form-select" value={fromUnitState} onChange={(e) => setFromUnitState(e.target.value)}>
+                        <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
                             <option value="">From</option>
                             {unitOptions.map((unit) => (
                                 <option key={unit} value={unit}>
@@ -104,12 +107,12 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                             className="form-control"
                             placeholder=""
                             value={lengthValue2}
-                            onChange={handleLengthChange2}
+                            onChange={(e) => handleLength(e, "setLengthValue2")}
                             id="input2"
                         />
                     </div>
                     <div className="col">
-                        <select className="form-select" value={toUnitState} onChange={(e) => setToUnitState(e.target.value)}>
+                        <select className="form-select" value={toUnitState} onChange={(e) => handleUnitChange(e, "setToUnitState")}>
                             <option value="">To</option>
                             {unitOptions.map((unit) => (
                                 <option key={unit} value={unit}>

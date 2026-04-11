@@ -35,6 +35,6 @@ async def convert_length(value: str, from_unit: str, to_unit: str):
     value_in_meters = value_in_float * conversion_factors[from_unit]
 
     # Convert the value from meters to the target unit
-    converted_value = value_in_meters / conversion_factors[to_unit]
+    converted_value = round(value_in_meters / conversion_factors[to_unit], 10)
 
     return {"converted_value": converted_value}
