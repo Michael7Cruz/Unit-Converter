@@ -11,8 +11,8 @@ interface LengthProps {
 
 function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
     // manual update of lengthValue1 and lengthValue2 to prevent loop of useEffect calls
-    const [lengthValue1, setLengthValue1] = useState(length);
-    const [lengthValue2, setLengthValue2] = useState(0);
+    const [lengthValue1, setLengthValue1] = useState("0");
+    const [lengthValue2, setLengthValue2] = useState("0");
     // track which input is being updated to prevent loop of useEffect calls
     const [updatingInput, setUpdatingInput] = useState(0);
     // state for fromUnit and toUnit to trigger useEffect when they change
@@ -20,39 +20,31 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
     const [toUnitState, setToUnitState] = useState("meter");
 
     const unitOptions = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"]; 
+    const inputRegex = /^\s*[-+]?\d+(\.\d+)?\s*$/;
 
-    const handleLength = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleLength = (e: React.ChangeEvent<HTMLInputElement>, lengthSetState: string) => {
         let inputValue = e.target.value;
-        let inputMaxSize = 10 ** 16; // Set the maximum length for the input
-        let numericValue: number
-        if (inputValue === "") {
-            inputValue = "0";
+        if (lengthSetState === "setLengthValue1") {
+            setLengthValue1(inputValue);
+        } else {
+            setLengthValue2(inputValue);
         }
-        if (inputValue === "-") {
-            inputValue = "-0.0";
-        }
-        numericValue = parseFloat(inputValue);
-        if (Math.abs(numericValue) >= inputMaxSize) {
-            numericValue = inputMaxSize - 1;
-        }
-        return numericValue
+        return inputValue
     }
 
     const handleLengthChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let numericValue = handleLength(e);
-        setLengthValue1(numericValue);
+        handleLength(e, "setLengthValue1");
         setUpdatingInput(0);
     }
 
     const handleLengthChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let numericValue = handleLength(e);
-        setLengthValue2(numericValue);
+        handleLength(e, "setLengthValue2");
         setUpdatingInput(1);
     }
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 0) {
+            if (itemSelected === "Length" && updatingInput === 0 && inputRegex.test(lengthValue1)) {
                 try {
                     const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${lengthValue1}`);
                     const data = await response.json();
@@ -67,7 +59,7 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 1) {
+            if (itemSelected === "Length" && updatingInput === 1 && inputRegex.test(lengthValue2)) {
                 try {
                     const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${lengthValue2}`);
                     const data = await response.json();
@@ -88,9 +80,9 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                 <form className="row g-3">
                     <div className="col">
                         <input
-                            type="number"
+                            type="text"
                             className="form-control"
-                            placeholder="Enter length"
+                            placeholder=""
                             value={lengthValue1}
                             onChange={handleLengthChange1}
                             id="input1"
@@ -108,9 +100,9 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                     </div>
                     <div className="col">
                         <input
-                            type="number"
+                            type="text"
                             className="form-control"
-                            placeholder="Enter length"
+                            placeholder=""
                             value={lengthValue2}
                             onChange={handleLengthChange2}
                             id="input2"
