@@ -7,13 +7,6 @@ router = APIRouter(
     tags=["weight"]
 )
 
-def numeric_check(value: str) -> bool:
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
-
 @router.get("/convert")
 async def convert_weight(value: str, from_unit: str, to_unit: str, numeric: Annotated[bool, Depends(numeric_check)]):
     # Define conversion factors (all values are in terms of kilograms)

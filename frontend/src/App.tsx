@@ -11,7 +11,9 @@ function App() {
       ];
 
   const lengthUnits = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"];
-      
+  const weightUnits = ["gram", "kilogram", "milligram", "pound", "ounce"];
+  const temperatureUnits = ["celsius", "fahrenheit", "kelvin"];    
+  
   const [selectedItem, setSelectedItem] = useState("");
 
   const handleSelectItem = (item: string) => {
