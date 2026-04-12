@@ -1,16 +1,12 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Depends
+from app.dependencies.numeric_check import numeric_check
 
 router = APIRouter(
     prefix="/temperature",
     tags=["temperature"]
 )
-
-def numeric_check(value: str) -> bool:
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
 
 valid_units = ["celsius", "fahrenheit", "kelvin"]
 
@@ -28,12 +24,12 @@ def kelvin_to_celsius(k):
     return k - 273.15
 
 @router.get("/convert")
-async def convert_temperature(value: str, from_unit: str, to_unit: str):
+async def convert_temperature(value: str, from_unit: str, to_unit: str, numeric: Annotated[bool, Depends(numeric_check)]):
     value_in_celsius: float = 0.0
     converted_value: float = 0.0
     
     # Check if the provided units are valid
-    if from_unit not in valid_units or to_unit not in valid_units or numeric_check(value) == False:
+    if from_unit not in valid_units or to_unit not in valid_units or not numeric:
         return {"error": "Invalid units or value provided."}
 
     value_in_float = float(value)
