@@ -6,9 +6,10 @@ interface LengthProps {
     itemSelected: string;
     defaultFromUnit: string;
     defaultToUnit: string;
+    unitOptions: string[];
 }
 
-function Length({ itemSelected, defaultFromUnit, defaultToUnit }: LengthProps) {
+function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: LengthProps) {
     // manual update of value1 and value2 to prevent loop of useEffect calls
     const [value1, setValue1] = useState("0");
     const [value2, setValue2] = useState("0");
@@ -17,8 +18,7 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit }: LengthProps) {
     // state for fromUnit and toUnit to trigger useEffect when they change
     const [fromUnitState, setFromUnitState] = useState(defaultFromUnit);
     const [toUnitState, setToUnitState] = useState(defaultToUnit);
-
-    const unitOptions = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"]; 
+     
     const inputRegex = /^\s*[-+]?\d+(\.\d+)?\s*$/;
 
     const handleLength = (e: React.ChangeEvent<HTMLInputElement>, lengthSetState: string) => {

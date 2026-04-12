@@ -10,6 +10,8 @@ function App() {
           "Temperature",
       ];
 
+  const lengthUnits = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"];
+      
   const [selectedItem, setSelectedItem] = useState("");
 
   const handleSelectItem = (item: string) => {
@@ -21,7 +23,7 @@ function App() {
     <>
       <Alert>Select a unit type</Alert>
       <ListGroup items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
-      <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" />
+      <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
     </>
   )
 }
