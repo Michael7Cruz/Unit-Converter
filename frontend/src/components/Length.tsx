@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const BASE_URL = "http://127.0.0.1:8000"
 
@@ -18,7 +18,7 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
     // state for fromUnit and toUnit to trigger useEffect when they change
     const [fromUnitState, setFromUnitState] = useState(defaultFromUnit);
     const [toUnitState, setToUnitState] = useState(defaultToUnit);
-     
+
     const inputRegex = /^\s*[-+]?\d+(\.\d+)?\s*$/;
 
     const handleLength = (e: React.ChangeEvent<HTMLInputElement>, lengthSetState: string) => {
@@ -33,6 +33,7 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
         return inputValue
     }
 
+    // Change setUpdatingInput based on desired behavior: if you want to update the other input when one changes, set it to the opposite value (0 or 1). If you want to update the same input, keep it the same.
     const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>, unitSetState: string) => {
         let unitValue = e.target.value;
         if (unitSetState === "setFromUnitState") {
@@ -40,7 +41,7 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
             setUpdatingInput(0);
         } else {
             setToUnitState(unitValue);
-            setUpdatingInput(1);
+            setUpdatingInput(0);
         }
     }
 
