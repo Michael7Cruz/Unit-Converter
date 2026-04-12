@@ -30,7 +30,6 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
             setValue2(inputValue);
             setUpdatingInput(1);
         }
-        return inputValue
     }
 
     // Change setUpdatingInput based on desired behavior: if you want to update the other input when one changes, set it to the opposite value (0 or 1). If you want to update the same input, keep it the same.
