@@ -4,31 +4,30 @@ const BASE_URL = "http://127.0.0.1:8000"
 
 interface LengthProps {
     itemSelected: string;
-    length: number;
-    fromUnit: string;
-    toUnit: string;
+    defaultFromUnit: string;
+    defaultToUnit: string;
 }
 
-function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
-    // manual update of lengthValue1 and lengthValue2 to prevent loop of useEffect calls
-    const [lengthValue1, setLengthValue1] = useState("0");
-    const [lengthValue2, setLengthValue2] = useState("0");
+function Length({ itemSelected, defaultFromUnit, defaultToUnit }: LengthProps) {
+    // manual update of value1 and value2 to prevent loop of useEffect calls
+    const [value1, setValue1] = useState("0");
+    const [value2, setValue2] = useState("0");
     // track which input is being updated to prevent loop of useEffect calls
     const [updatingInput, setUpdatingInput] = useState(0);
     // state for fromUnit and toUnit to trigger useEffect when they change
-    const [fromUnitState, setFromUnitState] = useState("meter");
-    const [toUnitState, setToUnitState] = useState("meter");
+    const [fromUnitState, setFromUnitState] = useState(defaultFromUnit);
+    const [toUnitState, setToUnitState] = useState(defaultToUnit);
 
     const unitOptions = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"]; 
     const inputRegex = /^\s*[-+]?\d+(\.\d+)?\s*$/;
 
     const handleLength = (e: React.ChangeEvent<HTMLInputElement>, lengthSetState: string) => {
         let inputValue = e.target.value;
-        if (lengthSetState === "setLengthValue1") {
-            setLengthValue1(inputValue);
+        if (lengthSetState === "value1") {
+            setValue1(inputValue);
             setUpdatingInput(0);
         } else {
-            setLengthValue2(inputValue);
+            setValue2(inputValue);
             setUpdatingInput(1);
         }
         return inputValue
@@ -47,33 +46,33 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 0 && inputRegex.test(lengthValue1)) {
+            if (itemSelected === "Length" && updatingInput === 0 && inputRegex.test(value1)) {
                 try {
-                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${lengthValue1}`);
+                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${value1}`);
                     const data = await response.json();
-                    setLengthValue2(data.converted_value);
+                    setValue2(data.converted_value);
                 } catch (error) {
                     console.error("Error converting length:", error);
                 } 
             }
         }
         convertLength();
-    }, [itemSelected, fromUnitState, toUnitState, updatingInput, lengthValue1]);
+    }, [itemSelected, fromUnitState, toUnitState, updatingInput, value1]);
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 1 && inputRegex.test(lengthValue2)) {
+            if (itemSelected === "Length" && updatingInput === 1 && inputRegex.test(value2)) {
                 try {
-                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${lengthValue2}`);
+                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${value2}`);
                     const data = await response.json();
-                    setLengthValue1(data.converted_value);
+                    setValue1(data.converted_value);
                 } catch (error) {
                     console.error("Error converting length:", error);
                 } 
             }
         }
         convertLength();
-    }, [itemSelected, fromUnitState, toUnitState, updatingInput, lengthValue2]);
+    }, [itemSelected, fromUnitState, toUnitState, updatingInput, value2]);
 
     return (
     <div>
@@ -86,14 +85,13 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                             type="text"
                             className="form-control"
                             placeholder=""
-                            value={lengthValue1}
-                            onChange={(e) => handleLength(e, "setLengthValue1")}
+                            value={value1}
+                            onChange={(e) => handleLength(e, "value1")}
                             id="input1"
                         />
                     </div>
                     <div className="col">
                         <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
-                            <option value="">From</option>
                             {unitOptions.map((unit) => (
                                 <option key={unit} value={unit}>
                                     {unit.charAt(0).toUpperCase() + unit.slice(1)}
@@ -106,14 +104,13 @@ function Length({ itemSelected, length, fromUnit, toUnit }: LengthProps) {
                             type="text"
                             className="form-control"
                             placeholder=""
-                            value={lengthValue2}
-                            onChange={(e) => handleLength(e, "setLengthValue2")}
+                            value={value2}
+                            onChange={(e) => handleLength(e, "value2")}
                             id="input2"
                         />
                     </div>
                     <div className="col">
                         <select className="form-select" value={toUnitState} onChange={(e) => handleUnitChange(e, "setToUnitState")}>
-                            <option value="">To</option>
                             {unitOptions.map((unit) => (
                                 <option key={unit} value={unit}>
                                     {unit.charAt(0).toUpperCase() + unit.slice(1)}
