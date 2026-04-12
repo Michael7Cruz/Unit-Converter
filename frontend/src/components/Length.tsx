@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const BASE_URL = "http://127.0.0.1:8000"
 
@@ -38,10 +38,10 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
         let unitValue = e.target.value;
         if (unitSetState === "setFromUnitState") {
             setFromUnitState(unitValue);
-            setUpdatingInput(0);
+            setUpdatingInput(updatingInput);
         } else {
             setToUnitState(unitValue);
-            setUpdatingInput(0);
+            setUpdatingInput(updatingInput);
         }
     }
 
