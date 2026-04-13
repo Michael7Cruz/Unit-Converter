@@ -2,6 +2,8 @@ import { useState } from "react"
 import ListGroup from "./components/ListGroup"
 import Alert from "./components/Alert"
 import Length from "./components/Length";
+import Weight from "./components/Weight";
+import Temperature from "./components/Temperature";
 
 function App() {
   let items= [
@@ -27,6 +29,12 @@ function App() {
       <ListGroup items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
       {selectedItem === "length" && (
         <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
+      )}
+      {selectedItem === "weight" && (
+        <Weight itemSelected={selectedItem} defaultFromUnit="gram" defaultToUnit="gram" unitOptions={weightUnits} />
+      )}
+      {selectedItem === "temperature" && (
+        <Temperature itemSelected={selectedItem} defaultFromUnit="celsius" defaultToUnit="celsius" unitOptions={temperatureUnits} />
       )}
     </>
   )
