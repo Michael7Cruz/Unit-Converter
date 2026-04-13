@@ -36,9 +36,9 @@ export default function useHandleInput(defaultFromUnit: string, defaultToUnit: s
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 0 && inputRegex.test(value1)) {
+            if (itemSelected !== "" && updatingInput === 0 && inputRegex.test(value1)) {
                 try {
-                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${value1}`);
+                    const response = await fetch(`${BASE_URL}/${itemSelected}/convert?from_unit=${fromUnitState}&to_unit=${toUnitState}&value=${value1}`);
                     const data = await response.json();
                     setValue2(data.converted_value);
                 } catch (error) {
@@ -51,9 +51,9 @@ export default function useHandleInput(defaultFromUnit: string, defaultToUnit: s
 
     useEffect(() => {
         const convertLength = async () => {
-            if (itemSelected === "Length" && updatingInput === 1 && inputRegex.test(value2)) {
+            if (itemSelected !== "" && updatingInput === 1 && inputRegex.test(value2)) {
                 try {
-                    const response = await fetch(`${BASE_URL}/length/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${value2}`);
+                    const response = await fetch(`${BASE_URL}/${itemSelected}/convert?from_unit=${toUnitState}&to_unit=${fromUnitState}&value=${value2}`);
                     const data = await response.json();
                     setValue1(data.converted_value);
                 } catch (error) {

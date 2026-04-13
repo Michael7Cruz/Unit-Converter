@@ -5,9 +5,9 @@ import Length from "./components/Length";
 
 function App() {
   let items= [
-          "Length",
-          "Weight",
-          "Temperature",
+          "length",
+          "weight",
+          "temperature",
       ];
 
   const lengthUnits = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"];

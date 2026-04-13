@@ -15,7 +15,7 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
 
     return (
         <div>
-            {itemSelected === "Length" && (
+            {itemSelected === "length" && (
                 <>
                     <h2>Length Converter</h2>
                     <form className="row g-3">
