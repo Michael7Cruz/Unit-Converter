@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import useGetUnits from "./hooks/useGetUnits.tsx"
-import ListGroup from "./components/ListGroup"
+import UnitsList from "./components/UnitsList.tsx"
 import Alert from "./components/Alert"
 import Length from "./components/Length";
 import Weight from "./components/Weight";
@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Alert>Select a unit type</Alert>
-      <ListGroup items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
+      <UnitsList items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
       {selectedItem === "length" && (
         <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
       )}
