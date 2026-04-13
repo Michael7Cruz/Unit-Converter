@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 export default function useHandleInput(defaultFromUnit: string, defaultToUnit: string, itemSelected: string) {
     const BASE_URL = "http://127.0.0.1:8000"
     // manual update of value1 and value2 to prevent loop of useEffect calls
-    const [value1, setValue1] = useState("0");
-    const [value2, setValue2] = useState("0");
+    const [value1, setValue1] = useState("");
+    const [value2, setValue2] = useState("");
     // state for fromUnit and toUnit to trigger useEffect when they change
     const [fromUnitState, setFromUnitState] = useState(defaultFromUnit);
     const [toUnitState, setToUnitState] = useState(defaultToUnit);
