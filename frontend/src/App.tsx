@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import useGetUnits from "./hooks/useGetUnits.tsx"
 import ListGroup from "./components/ListGroup"
 import Alert from "./components/Alert"
 import Length from "./components/Length";
@@ -6,16 +7,8 @@ import Weight from "./components/Weight";
 import Temperature from "./components/Temperature";
 
 function App() {
-  let items= [
-          "length",
-          "weight",
-          "temperature",
-      ];
+  const { items, lengthUnits, weightUnits, temperatureUnits } = useGetUnits();
 
-  const lengthUnits = ["meter", "kilometer", "centimeter", "millimeter", "inch", "foot", "yard", "mile"];
-  const weightUnits = ["gram", "kilogram", "milligram", "pound", "ounce"];
-  const temperatureUnits = ["celsius", "fahrenheit", "kelvin"];    
-  
   const [selectedItem, setSelectedItem] = useState("");
 
   const handleSelectItem = (item: string) => {

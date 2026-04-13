@@ -1,5 +1,5 @@
 import fastapi
-from app.router import length, temperature, weight
+from app.router import length, temperature, units, weight
 from fastapi.middleware.cors import CORSMiddleware
 
 app = fastapi.FastAPI()
@@ -14,6 +14,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+app.include_router(units.router)
 app.include_router(length.router)
 app.include_router(weight.router)
 app.include_router(temperature.router)
