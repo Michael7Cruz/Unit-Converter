@@ -1,7 +1,4 @@
-import { useEffect, useState } from "react";
 import useHandleInput from "../hooks/useHandleInput";
-
-const BASE_URL = "http://127.0.0.1:8000"
 
 interface LengthProps {
     itemSelected: string;
@@ -14,53 +11,49 @@ function Length({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions }: L
     const { value1, value2, fromUnitState, toUnitState, handleInput, handleUnitChange } = useHandleInput(defaultFromUnit, defaultToUnit, itemSelected);
 
     return (
-        <div>
-            {itemSelected === "length" && (
-                <>
-                    <h2>Length Converter</h2>
-                    <form className="row g-3">
-                        <div className="col">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder=""
-                                value={value1}
-                                onChange={(e) => handleInput(e, "value1")}
-                                id="input1"
-                            />
-                        </div>
-                        <div className="col">
-                            <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
-                                {unitOptions.map((unit) => (
-                                    <option key={unit} value={unit}>
-                                        {unit.charAt(0).toUpperCase() + unit.slice(1)}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="col">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder=""
-                                value={value2}
-                                onChange={(e) => handleInput(e, "value2")}
-                                id="input2"
-                            />
-                        </div>
-                        <div className="col">
-                            <select className="form-select" value={toUnitState} onChange={(e) => handleUnitChange(e, "setToUnitState")}>
-                                {unitOptions.map((unit) => (
-                                    <option key={unit} value={unit}>
-                                        {unit.charAt(0).toUpperCase() + unit.slice(1)}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </form>
-                </>
-            )}
-        </div>
+        <>
+            <h2>Length Converter</h2>
+            <form className="row g-3">
+                <div className="col">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder=""
+                        value={value1}
+                        onChange={(e) => handleInput(e, "value1")}
+                        id="input1"
+                    />
+                </div>
+                <div className="col">
+                    <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
+                        {unitOptions.map((unit) => (
+                            <option key={unit} value={unit}>
+                                {unit.charAt(0).toUpperCase() + unit.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="col">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder=""
+                        value={value2}
+                        onChange={(e) => handleInput(e, "value2")}
+                        id="input2"
+                    />
+                </div>
+                <div className="col">
+                    <select className="form-select" value={toUnitState} onChange={(e) => handleUnitChange(e, "setToUnitState")}>
+                        {unitOptions.map((unit) => (
+                            <option key={unit} value={unit}>
+                                {unit.charAt(0).toUpperCase() + unit.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </form>
+        </>
     );
 }
 

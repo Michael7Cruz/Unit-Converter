@@ -25,7 +25,9 @@ function App() {
     <>
       <Alert>Select a unit type</Alert>
       <ListGroup items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
-      <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
+      {selectedItem === "length" && (
+        <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
+      )}
     </>
   )
 }
