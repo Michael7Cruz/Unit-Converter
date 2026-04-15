@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import useGetUnits from "./hooks/useGetUnits.tsx"
 import UnitsList from "./components/UnitsList.tsx"
-import Alert from "./components/Alert"
 import Length from "./components/Length";
 import Weight from "./components/Weight";
 import Temperature from "./components/Temperature";
@@ -19,7 +18,7 @@ function App() {
   return (
     <>
       <div className="container text-center px-5">
-        <UnitsList items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
+        <UnitsList items={items} onSelectItem={handleSelectItem}/>
         {selectedItem === "length" && (
           <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
         )}

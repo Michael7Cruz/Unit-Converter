@@ -2,22 +2,19 @@ import { useState } from "react";
 
 interface ListGroupProps {
     items: string[];
-    heading: string;
     onSelectItem: (item: string) => void;
 }
 
-function UnitsList({ items, heading, onSelectItem }: ListGroupProps){
-    const [selectedIndex, setSelectedIndex] = useState(-1);
+function UnitsList({ items, onSelectItem }: ListGroupProps){
     const [unitType, setUnitType] = useState("");
-    const emptyMessage = items.length === 0 && <p>No items found</p>
-    const [show, setShow] = useState(false);
+    const emptyMessage = items.length === 0 && <p>(No items found)</p>
 
     return (
         <>
             <form className="row p-2">
                 <div className="col">
                     <select className="form-select" value={unitType} onChange={(e) => {setUnitType(e.target.value); onSelectItem(e.target.value)}}>
-                        <option value="" className="value d-none">Select a unit</option>
+                        <option value="" className="value d-none">Select a unit {emptyMessage}</option>
                         {items.map((unit) => (
                             <option key={unit} value={unit}>
                                 {unit.charAt(0).toUpperCase() + unit.slice(1)}
