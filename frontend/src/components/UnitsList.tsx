@@ -7,7 +7,7 @@ interface ListGroupProps {
 
 function UnitsList({ items, onSelectItem }: ListGroupProps){
     const [unitType, setUnitType] = useState("");
-    const emptyMessage = items.length === 0 && <p>(No items found)</p>
+    const emptyMessage = items.length === 0 && "(waiting for units...)";
 
     return (
         <>
