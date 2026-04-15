@@ -6,55 +6,28 @@ interface ListGroupProps {
     onSelectItem: (item: string) => void;
 }
 
-function ListGroup({ items, heading, onSelectItem }: ListGroupProps){
+function UnitsList({ items, heading, onSelectItem }: ListGroupProps){
     const [selectedIndex, setSelectedIndex] = useState(-1);
-    
+    const [unitType, setUnitType] = useState("");
     const emptyMessage = items.length === 0 && <p>No items found</p>
     const [show, setShow] = useState(false);
 
     return (
         <>
-            <form className="row">
+            <form className="row p-2">
                 <div className="col">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="search units"
-                        value=""
-                        onChange={(e) => {}}
-                        id="input1"
-                    />
-                </div>
-                <div className="col">
-                    <div className="dropdown-active">
-                        <button 
-                            className={show ? "btn btn-secondary dropdown-toggle show" : "btn btn-secondary dropdown-toggle"} 
-                            type="button" 
-                            data-bs-toggle="dropdown" 
-                            aria-expanded="false"
-                            onClick={() => setShow(!show)}>
-                            {heading}
-                        </button>
-                        <ul className={show ? "dropdown-menu show" : "dropdown-menu"}>
-                            {emptyMessage}
-                            {items.map((item, index) => (
-                                <li key={item} onClick={() => setShow(false)}>
-                                    <a 
-                                        className={selectedIndex === index ? "dropdown-item active" : "dropdown-item"} href="#"
-                                        onClick={() => {
-                                            setSelectedIndex(index)
-                                            onSelectItem(item);
-                                        }}
-                                    >{item}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    <select className="form-select" value={unitType} onChange={(e) => {setUnitType(e.target.value); onSelectItem(e.target.value)}}>
+                        <option value="" className="value d-none">Select a unit</option>
+                        {items.map((unit) => (
+                            <option key={unit} value={unit}>
+                                {unit.charAt(0).toUpperCase() + unit.slice(1)}
+                            </option>
+                        ))}
+                    </select>
                 </div>
             </form>
         </>
     );
 }
 
-export default ListGroup;
+export default UnitsList;

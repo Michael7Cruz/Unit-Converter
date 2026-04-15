@@ -13,8 +13,8 @@ function Temperature({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions
     return (
         <>
             <h2>Temperature Converter</h2>
-            <form className="row g-3">
-                <div className="col">
+            <form style={{ gridTemplateColumns: "1fr 1fr"}} className="d-grid g-3">
+                <div className="p-2">
                     <input
                         type="text"
                         className="form-control"
@@ -24,16 +24,7 @@ function Temperature({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions
                         id="input1"
                     />
                 </div>
-                <div className="col">
-                    <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
-                        {unitOptions.map((unit) => (
-                            <option key={unit} value={unit}>
-                                {unit.charAt(0).toUpperCase() + unit.slice(1)}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div className="col">
+                <div className="p-2">
                     <input
                         type="text"
                         className="form-control"
@@ -43,7 +34,16 @@ function Temperature({ itemSelected, defaultFromUnit, defaultToUnit, unitOptions
                         id="input2"
                     />
                 </div>
-                <div className="col">
+                <div className="p-2">
+                    <select className="form-select" value={fromUnitState} onChange={(e) => handleUnitChange(e, "setFromUnitState")}>
+                        {unitOptions.map((unit) => (
+                            <option key={unit} value={unit}>
+                                {unit.charAt(0).toUpperCase() + unit.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div className="p-2">
                     <select className="form-select" value={toUnitState} onChange={(e) => handleUnitChange(e, "setToUnitState")}>
                         {unitOptions.map((unit) => (
                             <option key={unit} value={unit}>

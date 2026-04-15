@@ -18,17 +18,18 @@ function App() {
 
   return (
     <>
-      <Alert>Select a unit type</Alert>
-      <UnitsList items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
-      {selectedItem === "length" && (
-        <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
-      )}
-      {selectedItem === "weight" && (
-        <Weight itemSelected={selectedItem} defaultFromUnit="gram" defaultToUnit="gram" unitOptions={weightUnits} />
-      )}
-      {selectedItem === "temperature" && (
-        <Temperature itemSelected={selectedItem} defaultFromUnit="celsius" defaultToUnit="celsius" unitOptions={temperatureUnits} />
-      )}
+      <div className="container text-center px-5">
+        <UnitsList items={items} heading="Unit Types" onSelectItem={handleSelectItem}/>
+        {selectedItem === "length" && (
+          <Length itemSelected={selectedItem} defaultFromUnit="meter" defaultToUnit="meter" unitOptions={lengthUnits} />
+        )}
+        {selectedItem === "weight" && (
+          <Weight itemSelected={selectedItem} defaultFromUnit="gram" defaultToUnit="gram" unitOptions={weightUnits} />
+        )}
+        {selectedItem === "temperature" && (
+          <Temperature itemSelected={selectedItem} defaultFromUnit="celsius" defaultToUnit="celsius" unitOptions={temperatureUnits} />
+        )}
+      </div>
     </>
   )
 }
